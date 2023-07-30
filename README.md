@@ -8,4 +8,9 @@
 
 <h3>Todo</h3>
 <hr>
-<p>Yorumların dinamik hale getirilmesi ve modellerin m2m ilişkileri</p>
+<ul>
+<li>Modellerin m2m ilişkileri</li>
+<li>100% dinamik web-site arayüzü</li>
+<li>Yorumların dinamik hale getirilmesi</li>
+<li>RAPID API ile payment check & ödeme sistemi</li>
+</ul>
