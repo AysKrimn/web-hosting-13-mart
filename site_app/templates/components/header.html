@@ -14,21 +14,15 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  ml-auto">
+              
+
+              {% for link in request.navLinks %}
+                
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'anasayfa' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url link.to %}">{{link.name}} <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'hakkimizda' %}"> About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'hizmetlerimiz' %}">Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'ucretlendirme' %}">Pricing</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'ulas' %}">Contact Us</a>
-              </li>
+              {% endfor %}
+              
             </ul>
             <div class="quote_btn-container">
               <form class="form-inline">
@@ -54,55 +48,29 @@
     <section class="slider_section ">
       <div id="customCarousel1" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="detail-box">
-                    <h1>
-                      Fast & Secure <br>
-                      Web Hosting
-                    </h1>
-                    <p>
-                      Anything embarrassing hidden in the middle of text. All the Lorem Ipsuanything embarrassing hidden in the middle of text. All the Lorem Ipsumm </p>
-                    <div class="btn-box">
-                      <a href="" class="btn-1">
-                        Read More
-                      </a>
-                      <a href="" class="btn-2">
-                        Contact Us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row">
-                    <div class=" col-lg-10 mx-auto">
-                      <div class="img-box">
-                        <img src="{% static 'images/slider-img.png' %}" alt="">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      
+          <div class="carousel-container">
+          {% for data in bannerData %}
+          
           <div class="carousel-item">
+
+        
             <div class="container ">
               <div class="row">
                 <div class="col-md-6">
                   <div class="detail-box">
                     <h1>
-                      Fast & Secure <br>
-                      Web Hosting
+                      {{data.product_title}} <br>
+                      
                     </h1>
                     <p>
-                      Anything embarrassing hidden in the middle of text. All the Lorem Ipsuanything embarrassing hidden in the middle of text. All the Lorem Ipsumm </p>
+                    {{data.product_description}}   
+                    </p>
                     <div class="btn-box">
                       <a href="" class="btn-1">
                         Read More
                       </a>
-                      <a href="" class="btn-2">
+                      <a href="{% url 'ulas' %}" class="btn-2">
                         Contact Us
                       </a>
                     </div>
@@ -112,7 +80,7 @@
                   <div class="row">
                     <div class=" col-lg-10 mx-auto">
                       <div class="img-box">
-                        <img src="images/slider-img.png" alt="">
+                        <img src="{{data.product_image.url}}" alt="{{data.product_title}}">
                       </div>
                     </div>
                   </div>
@@ -120,40 +88,15 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="detail-box">
-                    <h1>
-                      Fast & Secure <br>
-                      Web Hosting
-                    </h1>
-                    <p>
-                      Anything embarrassing hidden in the middle of text. All the Lorem Ipsuanything embarrassing hidden in the middle of text. All the Lorem Ipsumm </p>
-                    <div class="btn-box">
-                      <a href="" class="btn-1">
-                        Read More
-                      </a>
-                      <a href="" class="btn-2">
-                        Contact Us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row">
-                    <div class=" col-lg-10 mx-auto">
-                      <div class="img-box">
-                        <img src="images/slider-img.png" alt="">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          {% endfor %}
+
         </div>
+      
+        </div>
+      
+      
+      
         <div class="carousel_btn-box">
           <a class="carousel-control-prev" href="#customCarousel1" role="button" data-slide="prev">
             <i class="fa fa-angle-left" aria-hidden="true"></i>

@@ -7,7 +7,13 @@
 {% block site-icerik %}
 
   <!-- service section -->
+  {% for message in messages %}
+    
+  <div class="alert alert-warning">
 
+    <p>{{message}}</p>
+  </div>
+  {% endfor %}
   <section class="service_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
@@ -56,15 +62,17 @@
   <section class="about_section layout_padding-bottom">
     <div class="container  ">
       <div class="row">
+        {% for data in aboutData %}
+        
         <div class="col-md-6">
           <div class="detail-box">
             <div class="heading_container">
               <h2>
-                About Us
+                {{data.title}}
               </h2>
             </div>
             <p>
-              Words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks </p>
+              {{data.description}} </p>
             <a href="">
               Read More
             </a>
@@ -72,10 +80,12 @@
         </div>
         <div class="col-md-6 ">
           <div class="img-box">
-            <img src="{% static 'images/about-img.png' %}" alt="">
+            <img src="{{data.file.url}}" alt="{{data.title}}">
           </div>
         </div>
 
+
+        {% endfor %}
       </div>
     </div>
   </section>
@@ -87,10 +97,13 @@
 
   <section class="server_section">
     <div class="container ">
+ 
+      {% for data in serverData %}
+
       <div class="row">
         <div class="col-md-6">
           <div class="img-box">
-            <img src="{% static 'images/server-img.jpg' %}" alt="">
+            <img src="{{data.file.url}}" alt="{{data.title}}">
             <div class="play_btn">
               <button>
                 <i class="fa fa-play" aria-hidden="true"></i>
@@ -102,10 +115,10 @@
           <div class="detail-box">
             <div class="heading_container">
               <h2>
-                Let us manage your server
+                {{data.title}}
               </h2>
               <p>
-                Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore
+                {{data.description}}
               </p>
             </div>
             <a href="">
@@ -114,6 +127,10 @@
           </div>
         </div>
       </div>
+        
+      {% endfor %}
+
+
     </div>
   </section>
 
@@ -121,6 +138,8 @@
 
   <!-- price section -->
 
+    
+ 
   <section class="price_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
@@ -129,105 +148,119 @@
         </h2>
       </div>
       <div class="price_container ">
+
+        {% for data in ucretlendirme %}
+        <!-- modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="modal-{{data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Purchase for {{data.type.category}} tier</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+        <form action="{% url 'satin-al' data.id %}" method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control" name="adi" placeholder="Card First name">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" name="soyadi" placeholder="Card Last name">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mb-3">
+          <div class="form-group col-12">
+            <label for="inputAddress">Card No</label>
+            <input type="text" class="form-control" id="inputAddress" name="cardNo" placeholder="Card Numaranız">
+          </div> 
+  
+        </div>
+  
+        <div class="mb-3">
+
+         
+          <div class="form-row">
+
+            <div class="form-group col-md-5">
+              <label for="inputEmail4">Month</label>
+              <input type="number" class="form-control" name="ay" id="inputEmail4" placeholder="ay">
+            </div>
+            <div class="form-group col-md-5">
+              <label for="inputPassword4">Day</label>
+              <input type="number" class="form-control" name="gun" id="inputPassword4" placeholder="gün">
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputPassword4">CVC</label>
+              <input type="number" class="form-control" name="cvc" id="inputPassword4" placeholder="cvc">
+            </div>
+
+          </div>
+
+        </div>
+     
+
+        <div class="mb-3">
+           
+        <p class="text-danger text-start">You will be charged ${{data.price}}</p>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Buy</button>
+      </div>
+
+    </form>
+    </div>
+
+  </div>
+
+  </div>
+</div>
+
+        <!-- modal end -->
+
+
+
         <div class="box">
           <div class="detail-box">
-            <h2>$ <span>49</span></h2>
+            <h2>$ <span>{{data.price}}</span></h2>
             <h6>
-              Startup
+              {{data.type.category}}
             </h6>
+            
             <ul class="price_features">
-              <li>
-                2GB RAM
-              </li>
-              <li>
-                20GB SSD Cloud Storage
-              </li>
-              <li>
-                Weekly Backups
-              </li>
-              <li>
-                DDoS Protection
-              </li>
-              <li>
-                Full Root Access
-              </li>
-              <li>
-                24/7/365 Tech Support
-              </li>
+         
+              {% for option in data.options.all %}
+                
+              <li>{{option}}</li>
+              
+              {% endfor %}
+
             </ul>
+          
+          
           </div>
           <div class="btn-box">
-            <a href="">
-              See Detail
+            <a type="button" data-toggle="modal" data-target="#modal-{{data.id}}">
+              Buy Now
             </a>
           </div>
         </div>
-        <div class="box">
-          <div class="detail-box">
-            <h2>$ <span>99</span></h2>
-            <h6>
-              Standard
-            </h6>
-            <ul class="price_features">
-              <li>
-                4GB RAM
-              </li>
-              <li>
-                50GB SSD Cloud Storage
-              </li>
-              <li>
-                Weekly Backups
-              </li>
-              <li>
-                DDoS Protection
-              </li>
-              <li>
-                Full Root Access
-              </li>
-              <li>
-                24/7/365 Tech Support
-              </li>
-            </ul>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              See Detail
-            </a>
-          </div>
-        </div>
-        <div class="box">
-          <div class="detail-box">
-            <h2>$ <span>149</span></h2>
-            <h6>
-              Business
-            </h6>
-            <ul class="price_features">
-              <li>
-                8GB RAM
-              </li>
-              <li>
-                100GB SSD Cloud Storage
-              </li>
-              <li>
-                Weekly Backups
-              </li>
-              <li>
-                DDoS Protection
-              </li>
-              <li>
-                Full Root Access
-              </li>
-              <li>
-                24/7/365 Tech Support
-              </li>
-            </ul>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              See Detail
-            </a>
-          </div>
-        </div>
+
+       {% endfor %}
+
       </div>
     </div>
   </section>
@@ -249,112 +282,14 @@
     <div class="container px-0">
       <div id="customCarousel2" class="carousel  slide" data-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-10 mx-auto">
-                  <div class="box">
-                    <div class="img-box">
-                      <img src="{% static 'images/client.jpg' %}" alt="">
-                    </div>
-                    <div class="detail-box">
-                      <div class="client_info">
-                        <div class="client_name">
-                          <h5>
-                            Morojink
-                          </h5>
-                          <h6>
-                            Customer
-                          </h6>
-                        </div>
-                        <i class="fa fa-quote-left" aria-hidden="true"></i>
-                      </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum
-                        dolore eu fugia
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- yorumlar gelecek -->
+          <div id="comment-section">
+
+
+
           </div>
-          <div class="carousel-item">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-10 mx-auto">
-                  <div class="box">
-                    <div class="img-box">
-                      <img src="{% static 'images/client.jpg' %}" alt="">
-                    </div>
-                    <div class="detail-box">
-                      <div class="client_info">
-                        <div class="client_name">
-                          <h5>
-                            Morojink
-                          </h5>
-                          <h6>
-                            Customer
-                          </h6>
-                        </div>
-                        <i class="fa fa-quote-left" aria-hidden="true"></i>
-                      </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum
-                        dolore eu fugia
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-10 mx-auto">
-                  <div class="box">
-                    <div class="img-box">
-                      <img src="{% static 'images/client.jpg' %}" alt="">
-                    </div>
-                    <div class="detail-box">
-                      <div class="client_info">
-                        <div class="client_name">
-                          <h5>
-                            Morojink
-                          </h5>
-                          <h6>
-                            Customer
-                          </h6>
-                        </div>
-                        <i class="fa fa-quote-left" aria-hidden="true"></i>
-                      </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum
-                        dolore eu fugia
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
+          <!-- yorum alanı biter -->
         <div class="carousel_btn-box">
           <a class="carousel-control-prev" href="#customCarousel2" role="button" data-slide="prev">
             <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -407,6 +342,101 @@
   </section>
   <!-- end contact section -->
 
+
+
+  <script>
+    // comment section
+    const makeAPIRequest = async function() {
+
+      try {
+      const loader = document.createElement('p') // <p></p>
+      loader.innerText = "Yorumlar yükleniyor..."
+      loader.classList.add('loader')
+      loader.classList.add('text-center')
+      const div = document.getElementById('comment-section')
+
+      // p etiketini dive at
+      div.appendChild(loader)
+      // active classı ekle
+      loader.classList.add('active')
+      const request = await fetch('https://randomuser.me/api/?results=10')
+      const data = await request.json()
+      // html ağacından sil
+      loader.remove()
+
+      console.log("gelen veri:", data)
+
+      let status = ""
+
+     
+
+      data.results.map(function(user, index) {
+      
+      if(index == 0) {
+
+        status = "active"
+      } else {
+
+        status = ""
+      }
+
+      return div.innerHTML += `
+      <div class="carousel-item ${status}">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-10 mx-auto">
+                  <div class="box">
+                    <div class="img-box">
+                      <img src="${user.picture.large}" alt="${user.name.first}">
+                    </div>
+                    <div class="detail-box">
+                      <div class="client_info">
+                        <div class="client_name">
+                          <h5>
+                            ${user.name.first}
+                          </h5>
+                          <h6>
+                            Customer
+                          </h6>
+                        </div>
+                        <i class="fa fa-quote-left" aria-hidden="true"></i>
+                      </div>
+                      <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum
+                        dolore eu fugia
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div> 
+      `
+
+      })
+
+
+      } catch (error) {
+        
+        console.error("API isteğinde bir hata meydana geldi:", error)
+      }
+
+    }
+
+    // fonksiyonu sayfa açıldığında çağır
+    window.onload = function() {
+
+      makeAPIRequest()
+
+    }
+
+
+  </script>
 
 
 {% endblock site-icerik %}

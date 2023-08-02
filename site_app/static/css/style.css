@@ -1036,3 +1036,14 @@ a:focus {
   color: inherit;
 }
 /*# sourceMappingURL=style.css.map */
+
+/* loader */
+.loader {
+
+  display: none;
+}
+
+.loader.active {
+
+  display: block;
+}
